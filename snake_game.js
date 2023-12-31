@@ -1,17 +1,7 @@
 var elm = document.getElementById("pa");
 let val_inp = document.getElementById("inp");
-let valg;
-let div1;
-let val=0;
-let end=1;
-let pval=0;
-let tf;
-let path=[]
+let valg,div1,val=0,end=1,pval=0,tf,path=[],t,b1,k=0,food=Math.floor(Math.random()*10);
 path[0]=0;
-let t;
-let b1;
-console.log(elm.offsetWidth);
-console.log(elm.offsetHeight);
 val_inp.addEventListener('change',function(){
 	if(elm.hasChildNodes()){
 		elm.innerHTML='';
@@ -24,6 +14,7 @@ val_inp.addEventListener('change',function(){
 		elm.append(div1);
 }
 b1=document.getElementsByClassName("ch");
+b1[food].style.background="purple";
 end=0;
 val=0;
 path=[];
@@ -50,7 +41,12 @@ function replacer(a){
 }
 }
 function valset(val){
-	if(val==1){ path.unshift(val);}
+	if(val==food){ 
+		b1[food].style.background="yellow";
+		b1[food].style.borderRadius="40%";
+		path.unshift(val);
+		food=Math.floor(Math.random()*(valg*valg));
+}
 	else{ replacer(val);}
 }
 function color(val){
@@ -58,8 +54,15 @@ function color(val){
 	console.log(path);
 	b1[val].style.background="yellow";
 	b1[val].style.borderRadius="40%";
-	b1[path[(path.length)-1]].style.background="red";
-	b1[path[(path.length)-1]].style.borderRadius="0%";
+	if(food==val){
+		b1[food].style.background="purple";
+		b1[food].style.borderRadius="0%";
+}
+	else{
+		b1[food].style.background="purple";
+		b1[path[(path.length)-1]].style.background="red";
+		b1[path[(path.length)-1]].style.borderRadius="0%";
+}
 	valset(val);
 }
 }
@@ -72,18 +75,20 @@ function logic(a){
 }
 	else{
 		console.log("game over");
+		b1[val].style.background="black";
 		end=1;
 		clearInterval(t);
 }
 	color(val);
 }
 window.addEventListener('keyup', function in2(e) {
-	if(end!=1){
+	 if(end!=1){
 	clearInterval(t);
-        t= setInterval(logic,400,e.keyCode);
+        t= setInterval(logic,150,e.keyCode);
 }
 else{
 	console.log("game over");
+	b1[val].style.background="black";
 	clearInterval(t);
 }
 });
